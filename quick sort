@@ -1,0 +1,59 @@
+#include <stdio.h>  
+#include <stdlib.h>  
+#include <time.h> 
+#define N 10  //最大排序数据项个数
+
+typedef struct {
+	int r[N + 1];
+	int length;
+}SqList;
+
+int partition(SqList &L, int low, int high)
+{
+	int pivotkey;
+	pivotkey = L.r[low];
+	while (low < high)
+	{
+		while (low < high&&L.r[high] >= pivotkey)
+			--high;
+		L.r[low] = L.r[high];
+		while (low < high&&L.r[low] <= pivotkey)
+			++low;
+		L.r[high] = L.r[low];
+	}
+	L.r[low] = pivotkey;
+	return low;
+}
+void QSort(SqList &L,int low,int high)
+{
+	int pivotloc,i;
+	if (low < high)
+   {
+	   pivotloc = partition(L,low,high);
+	   QSort(L,low,pivotloc-1);
+	   QSort(L,pivotloc+1,high);
+   }
+	printf("排序后序列：");
+	for (i = 1; i <= L.length; i++)
+		printf("%5d", L.r[i]); //输出排序后的数列
+	printf("\n");
+}
+
+
+int main(void) {
+	SqList L;
+	int i, j;
+	
+	for (i = 1; i <= 6; i++)
+		scanf("%d", &L.r[i]);
+	L.length = 6;
+	printf("排序前序列：");
+	for (i = 1; i <= L.length; i++) printf("%5d", L.r[i]);  //输出排序前的数列
+	printf("\n");
+	//以下由学生写入排序算法的调用代码
+	QSort(L, 1, L.length);
+
+	//以上由学生写入排序算法的调用代码
+	
+
+}
